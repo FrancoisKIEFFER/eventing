@@ -1,11 +1,17 @@
-var express = require("express");
-var path = require("path");
-var logger = require("morgan");
-var bodyParser = require("body-parser");
+const express = require("express");
+const path = require("path");
+const logger = require("morgan");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const cors = require("cors");
+const { Strategy, ExtractJwt } = require("passport-jwt");
+const User = require("./models/user");
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/eventing");
+const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
 
-var index = require("./routes/index");
-
-var app = express();
+const config = require("./config");
+const app = express();
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -13,8 +19,70 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  cors({
+    origin: "http://localhost:8080"
+  })
+);
 
-app.use("/", index);
+passport.initialize();
+// Create the strategy for JWT
+const strategy = new Strategy(
+  {
+    // this is a config we pass to the strategy
+    // it needs to secret to decrypt the payload of the
+    // token.
+    secretOrKey: config.jwtSecret,
+    // This options tells the strategy to extract the token
+    // from the header of the request
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
+  },
+  (payload, done) => {
+    // payload is the object we encrypted at the route /api/token
+    // We get the user id, make sure the user exist by looking it up
+    User.findById(payload.id).then(user => {
+      if (user) {
+        // make the user accessible in req.user
+        done(null, user);
+      } else {
+        done(new Error("User not found"));
+      }
+    });
+  }
+);
+// tell pasport to use it
+passport.use(strategy);
+
+const authRoutes = require("./routes/auth");
+app.use("/api", authRoutes);
+
+app.use("/api", (req, res, next) => {
+  passport.authenticate("jwt", config.jwtSession, (err, user, fail) => {
+    req.user = user;
+    next(err);
+  })(req, res, next);
+});
+
+app.get("/api/me", (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.json({
+      message: "You're not connected"
+    });
+  }
+});
+
+app.get(
+  "/api/secret",
+  // this is protecting the route and giving us access to
+  // req.user
+  ensureLoggedIn(),
+  (req, res) => {
+    // send the user his own information
+    res.json(req.user);
+  }
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -25,13 +93,10 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
+  console.log(err);
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render(req.app.get("env") === "development" ? err : {});
 });
 
 module.exports = app;
