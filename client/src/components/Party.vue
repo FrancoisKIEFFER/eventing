@@ -66,8 +66,8 @@
                             <li>Manette xbox</li>
                             <li>Cable HDMI</li>
                             <!-- <li v-for="need in needs">
-                                                                                                                                                                                                                                                                                                                    {{need.needAdd}}
-                                                                                                                                                                                                                                                                                                                </li> -->
+                                                                                                                                                                                                                                                                                                                            {{need.needAdd}}
+                                                                                                                                                                                                                                                                                                                        </li> -->
                         </ul>
                     </div>
                 </article>
@@ -323,6 +323,7 @@ export default {
 <style scoped>
 .board {
     background-color: #cecece;
+    padding-top: 68px;
 }
 
 .tile.is-ancestor {

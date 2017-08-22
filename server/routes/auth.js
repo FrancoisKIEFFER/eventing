@@ -50,7 +50,7 @@ router.post("/login", (req, res, next) => {
         };
 
         const token = jwt.encode(payload, config.jwtSecret);
-        res.json({ token });
+        res.json({ token, username });
       }
     });
   } else {

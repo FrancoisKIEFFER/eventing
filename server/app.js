@@ -96,7 +96,7 @@ app.use(function(err, req, res, next) {
   console.log(err);
   // render the error page
   res.status(err.status || 500);
-  res.render(req.app.get("env") === "development" ? err : {});
+  res.json(req.app.get("env") === "development" ? err : {});
 });
 
 module.exports = app;

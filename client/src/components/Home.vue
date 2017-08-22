@@ -1,18 +1,15 @@
 <template>
   <div class="home">
-    <nav class="navbar">
-      <h1>[EVENT]-ing</h1>
-    </nav>
     <section class="hero is-large">
       <div class="hero-body">
         <div class="container title">
           <h1>Bienvenue sur [EVENT]-ing</h1>
           <p>the "T" is silent</p>
-          <a class="button is-large is-success" @click="callModal()" data-target="modal" style="bottom: -70px">
-            Log in / Sign in
-          </a>
-          <a class="button is-large is-dark" @click="callModal2()" data-target="modal" style="bottom: -70px">
+          <a class="button is-large is-dark" v-if="$root.user" @click="callModal2()" data-target="modal" style="bottom: -70px">
             Create an [EVENT]
+          </a>
+          <a class="button is-large is-success" v-else @click="callModal()" data-target="modal" style="bottom: -70px">
+            Log in / Sign in
           </a>
         </div>
       </div>
@@ -133,23 +130,26 @@
           <button class="delete" aria-label="close" @click="displayModal=false"></button>
         </header>
         <section class="modal-card-body">
+          <article v-if="error" class="message is-danger">
+            <div class="message-body">{{ error }}</div>
+          </article>
           <div class="columns is-desktop">
             <div class="column">
               <h3>Already Registered</h3>
-              <input class="input is-large" type="text" placeholder="Username"></input>
-              <input class="input is-large" type="text" placeholder="Password"></input>
-              <button class="button is-success is-large" style="margin-top: 1vh">Login</button>
+              <input class="input is-large" v-model="usernameLogin" type="text" placeholder="Username"></input>
+              <input class="input is-large" v-model="passwordLogin" type="password" placeholder="Password"></input>
+              <button @click="login" class="button is-success is-large" style="margin-top: 1vh">Login</button>
             </div>
             <div class="column">
               <h3>Create an Account</h3>
-              <input class="input is-large" type="text" placeholder="Username"></input>
-              <input class="input is-large" type="text" placeholder="Email"></input>
-              <input class="input is-large" type="text" placeholder="Password"></input>
-              <input class="input is-large" type="text" placeholder="Address"></input>
-              <input class="input is-large" type="text" placeholder="Zipcode City"></input>
-              <input class="input is-large" type="text" placeholder="Phonenumber"></input>
-              <input class="input is-large" type="text" placeholder="Digicode"></input>
-              <button class="button is-success is-large" style="margin-top: 1vh">Create</button>
+              <input class="input is-large" v-model="username" type="text" placeholder="Username"></input>
+              <input class="input is-large" v-model="password" type="password" placeholder="Password"></input>
+              <input class="input is-large" v-model="email" type="text" placeholder="Email"></input>
+              <input class="input is-large" v-model="address" type="text" placeholder="Address"></input>
+              <input class="input is-large" v-model="zipcode" type="text" placeholder="Zipcode City"></input>
+              <input class="input is-large" v-model="phonenumber" type="text" placeholder="Phonenumber"></input>
+              <input class="input is-large" v-model="digicode" type="text" placeholder="Digicode"></input>
+              <button @click="signup" class="button is-success is-large" style="margin-top: 1vh">Create</button>
             </div>
           </div>
 
@@ -164,7 +164,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">What do you need ?</p>
+          <p class="modal-card-title">Describe your [EVENT]</p>
           <button class="delete" aria-label="close" @click="displayModal2=false"></button>
         </header>
         <section class="modal-card-body">
@@ -194,17 +194,65 @@
 </template>
 
 <script>
+import auth from "../api"
+
 export default {
   name: 'home',
   data() {
     return {
+      usernameLogin: '',
+      passwordLogin: '',
+      error: '',
+      email: '',
+      password: '',
+      username: '',
+      address: '',
+      zipcode: '',
+      phonenumber: '',
+      digicode: '',
       displayModal: false,
       displayModal2: false,
     }
   },
   methods: {
+    signup() {
+      this.error = ''
+      auth.signup({
+        email: this.email,
+        password: this.password,
+        username: this.username,
+        address: this.address,
+        zipcode: this.zipcode,
+        phonenumber: this.phonenumber,
+        digicode: this.digicode
+      }).then(response => {
+        this.displayModal = false
+      }).catch(err => {
+        this.error = err.response.data.message
+      })
+    },
+    login() {
+      auth.login(this.usernameLogin, this.passwordLogin, this)
+        .then(response => {
+          this.displayModal = false
+        })
+        .catch(err => {
+          console.error(err);
+          this.error = err.response.data
+        })
+    },
     callModal() {
-      this.displayModal = true;
+      this.username = '',
+        this.usernameLogin = '',
+        this.passwordLogin = '',
+        this.password = '',
+        this.email = '',
+        this.address = '',
+        this.zipcode = '',
+        this.phonenumber = '',
+        this.digicode = '',
+        this.error = '',
+        this.displayModal = true;
     },
     callModal2() {
       this.displayModal2 = true;
@@ -217,14 +265,7 @@ export default {
 <style scoped>
 .home {
   text-align: center;
-}
-
-nav {
-  margin-bottom: 20px;
-  position: fixed;
-  width: 100%;
-  background-color: #dcdcdc;
-  Z-index: 5;
+  padding-top: 68px;
 }
 
 h1 {
