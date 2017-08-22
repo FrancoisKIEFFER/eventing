@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
@@ -7,7 +9,8 @@ const cors = require("cors");
 const { Strategy, ExtractJwt } = require("passport-jwt");
 const User = require("./models/user");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/eventing");
+mongoose.connect(process.env.MONGODB_URI, { useMongoClient: true });
+
 const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
 
 const config = require("./config");
