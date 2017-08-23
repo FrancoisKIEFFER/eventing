@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/eventing");
 
 const Event = require("../models/event");
-
 const User = require("../models/user");
+const Item = require("../models/item");
 
 const user = new User({
   name: "fk",
@@ -28,16 +28,18 @@ user.save().then(userNew => {
       address: "33 rue Lafayette",
       zipcode: "75008 Paris",
       digicode: "Interphone fk"
-    },
-    items: {
-      name: "Bières",
-      quantity: 1,
-      category: "drink",
-      creator: "John",
-      backer: "Seb"
     }
   });
   event.save();
 });
+
+const item = new Item({
+  name: "Bières",
+  quantity: 1,
+  category: "drink",
+  creator: "John",
+  backer: "Seb"
+});
+item.save();
 
 mongoose.connection.close();

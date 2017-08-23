@@ -15,13 +15,6 @@ const eventSchema = new Schema({
     address: String,
     zipcode: String,
     digicode: String
-  },
-  items: {
-    name: String,
-    quantity: Number,
-    category: { type: String, enum: ["drink", "food", "extras", "necessary"] },
-    creator: String,
-    backer: String
   }
 });
 
