@@ -1,9 +1,9 @@
 <template>
     <div>
         <p>{{itemData.name}}
-            <i>&nbsp;asked by {{itemData.creator}}</i>
-            <b :class="{'is-active': backerButton}">&nbsp;brought by {{itemData.backer}}</b>
-            <a @click="bringIt()" class="button is-light">I bring it!</a>
+            <!-- <i>&nbsp;asked by {{itemData.creator}}</i> -->
+            <!-- <b :class="{'is-active': backerButton}">&nbsp;brought by {{itemData.backer}}</b> -->
+            <!-- <a @click="bringIt()" class="button is-small is-light">I bring it!</a> -->
         </p>
     </div>
 </template>
@@ -37,6 +37,8 @@ p {
     p {
         font-size: 0.7em;
     }
-    a {}
+    .button {
+        font-size: 7px;
+    }
 }
 </style>

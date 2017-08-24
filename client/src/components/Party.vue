@@ -1,27 +1,25 @@
 <template>
     <div class='board'>
-        <div class='big event tile is-ancestor'>
+        <div class='big event tile is-ancestor' v-if="event">
             <div class="tile photoAdress is-parent is-vertical is-3">
-                <article class="photo is-child box">
-                    <figure class="image is-4by3">
-                        <h1>Profile Picture</h1>
-                        <img src="http://bulma.io/images/placeholders/640x480.png">
-                    </figure>
+                <article class="date is-child is-2 box">
+                    <h1>Date</h1>
+                    <h2>{{event.eventInfo.date}}</h2>
                 </article>
                 <article class="adress is-child box">
                     <h1>Address</h1>
                     <hr>
                     <div v-if="place">
-                        <p>{{place.address}}</p>
-                        <p>{{place.zipcode}}</p>
-                        <p>{{place.digicode}}</p><br>
+                        <p>{{event.place.address}}</p>
+                        <p>{{event.place.zipcode}}</p>
+                        <p>{{event.place.digicode}}</p><br>
                     </div>
 
                     <h1>Host</h1>
                     <hr>
-                    <p>François KIEFFER
-                        <br>06 23 48 65 04
-                        <br>frankie.prime@gmail.com
+                    <p>{{event.host.username}}
+                        <br>{{event.host.phonenumber}}
+                        <br>{{event.host.email}}
                     </p>
                 </article>
             </div>
@@ -30,7 +28,7 @@
                     <div class="title">
                         <div>
                             <form method="post">
-                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{title}}</label>
+                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{event.eventInfo.title}}</label>
                                 <input id="inputTitle" v-model="title" @blur="editTtr = false"></input>
                             </form>
                         </div>
@@ -41,7 +39,7 @@
                         <h2>Description : </h2>
                         <div>
                             <form method="post">
-                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{description}}</label>
+                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{event.eventInfo.description}}</label>
                                 <textarea id="inputMessage" rows="4" v-model="description" @blur="editDscr = false"></textarea>
                             </form>
                         </div>
@@ -50,8 +48,8 @@
                 </article>
                 <article class="tile stuff is-child box">
                     <h2>Have it</h2>
-                    <hr>
-                    <!-- {{haveIt}} -->
+                    <hr> {{event.eventInfo.haveIt}}
+                    <br>
                     <br>
 
                     <div class="level is-mobile">
@@ -64,7 +62,7 @@
                     <hr>
                     <div class="needList">
                         <ul>
-                            <li v-for="item in items">
+                            <li v-for="item in necessaries">
                                 <item-view :item-data="item"></item-view>
                             </li>
                         </ul>
@@ -78,7 +76,7 @@
                     <hr>
                     <ul>
                         <li></li>
-                        <li v-for="participant in participants">{{ participant }}</li>
+                        <li v-for="participant in participants">{{ event.participant }}</li>
                     </ul>
                 </div>
             </div>
@@ -96,7 +94,7 @@
                     <hr>
                     <div class="drinkList">
                         <ul>
-                            <li v-for="item in items">
+                            <li v-for="item in drinks">
                                 <item-view :item-data="item"></item-view>
                             </li>
                         </ul>
@@ -115,7 +113,7 @@
                     <hr>
                     <div class="foodList">
                         <ul>
-                            <li v-for="item in items">
+                            <li v-for="item in foods">
                                 <item-view :item-data="item"></item-view>
                             </li>
                         </ul>
@@ -134,7 +132,7 @@
                     <hr>
                     <div class="extrasList">
                         <ul>
-                            <li v-for="item in items">
+                            <li v-for="item in extras">
                                 <item-view :item-data="item"></item-view>
                             </li>
                         </ul>
@@ -161,7 +159,7 @@
                     <button class="delete" aria-label="close" @click="displayModal=false"></button>
                 </header>
                 <section class="modal-card-body level is-mobile">
-                    <input class="input is-large" type="text" placeholder="Add your need"></input>
+                    <input class="input is-large" type="text" placeholder="Add your need" required></input>
                     <div class="control">
                         <div class="select is-large">
                             <select class="is-focused">
@@ -188,7 +186,7 @@
                     <button class="delete" aria-label="close" @click="displayModal2=false"></button>
                 </header>
                 <section class="modal-card-body level">
-                    <input class="input is-large is-info" type="text" placeholder="Add your drink"></input>
+                    <input class="input is-large is-info" type="text" placeholder="Add your drink" required></input>
                     <div class="control">
                         <div class="select is-large is-info">
                             <select class="is-focused">
@@ -215,7 +213,7 @@
                     <button class="delete" aria-label="close" @click="displayModal3=false"></button>
                 </header>
                 <section class="modal-card-body level">
-                    <input class="input is-large is-danger" type="text" placeholder="Add your food"></input>
+                    <input class="input is-large is-danger" type="text" placeholder="Add your food" required></input>
                     <div class="control">
                         <div class="select is-large is-danger">
                             <select class="is-focused">
@@ -242,7 +240,7 @@
                     <button class="delete" aria-label="close" @click="displayModal4=false"></button>
                 </header>
                 <section class="modal-card-body level">
-                    <input class="input is-large is-success" type="text" placeholder="Add your extra"></input>
+                    <input class="input is-large is-success" type="text" placeholder="Add your extra" required></input>
                     <div class="control">
                         <div class="select is-large is-success">
                             <select class="is-focused">
@@ -255,7 +253,7 @@
                     </div>
                 </section>
                 <footer class="modal-card-foot">
-                    <button class="button is-success">Add</button>
+                    <button class="button is-success" @click="addItem">Add</button>
                     <button class="button is-danger" @click="displayModal4=false">Cancel</button>
                 </footer>
             </div>
@@ -274,7 +272,6 @@ import api from "../api";
 import Item from "./Item"
 
 export default {
-    name: 'event',
     components: {
         ItemView: Item
     },
@@ -294,7 +291,10 @@ export default {
             ],
             participants: null,
             place: null,
-            items: []
+            items: [],
+            host: null,
+            name: null,
+            event: null
         };
     },
     methods: {
@@ -316,21 +316,47 @@ export default {
         callModalExtras() {
             this.displayModal4 = true;
         },
+        addItem() {
+            this.name = items.name;
+            this.category = items.category;
+
+        },
         // submitDescription() {
         //     this.edit = false;
         // }
     },
     created() {
-        api.getEvent("599d82b824bcf80bf8cd5ee7").then((event) => {
+        api.getEvent(this.$route.params.id).then((event) => {
             this.participants = event.participants
             this.place = event.place
-            this.title = event.eventInfo.title
-            this.description = event.eventInfo.description
+
+            this.host = event.host
+
+            this.event = event
 
         });
         api.getItemsOfEvent("599d82b824bcf80bf8cd5ee7").then((items) => {
             this.items = items
-        })
+        });
+        // api.getUser(this.$route.params.id).then((host) => {
+        //     this.username = host.username
+        //     this.email = user.email
+        // })
+    },
+    computed: {
+        // "drink", "food", "extras", "necessary"
+        drinks() {
+            return this.items.filter(item => item.category === "drink")
+        },
+        foods() {
+            return this.items.filter(item => item.category === "food")
+        },
+        extras() {
+            return this.items.filter(item => item.category === "extras")
+        },
+        necessaries() {
+            return this.items.filter(item => item.category === "necessary")
+        },
 
     }
 }

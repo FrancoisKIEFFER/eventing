@@ -11,7 +11,22 @@ router.get("/items/:itemId", (req, res) => {
 
 // NOT WORK :(
 router.post("/items", (req, res) => {
-  Item.pop({ _id: ObjectId(req.params.itemId) }).then(item => res.json(item));
+  var item = new Item({
+    name: req.body.name,
+    category: req.body.category,
+    creator: req.body.creator,
+    backer: null,
+    event: req.body.eventId
+  });
+  item
+    .save(item)
+    .then(item => {
+      console.log(item);
+      return item.populate("event").execPopulate();
+    })
+    .then(item => {
+      res.json(item);
+    });
 });
 
 //WORK !!!!!!!

@@ -273,7 +273,10 @@ export default {
         description: this.description,
         haveIt: this.haveIt,
         token: this.$root.user.token
-      });
+      })
+        .then(event => {
+          this.$router.push(`/events/${event._id}`)
+        })
     }
   },
 

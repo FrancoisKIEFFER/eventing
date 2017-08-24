@@ -61,6 +61,10 @@ function postEvent(body) {
   return server.post(`/events`, body).then(response => response.data);
 }
 
+function postItem(body) {
+  return server.post(`/items`, body).then(response => response.data);
+}
+
 export default {
   signup,
   login,
@@ -69,5 +73,7 @@ export default {
   getEvent,
   getItem,
   getItemsOfEvent,
-  postEvent
+  postEvent,
+  postItem
+  // getUser
 };

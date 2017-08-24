@@ -10,7 +10,13 @@ router.get("/events/:eventId/items", (req, res) => {
 });
 // WORK   !!!!!!
 router.get("/events/:eventId", (req, res) => {
-  Event.findById(req.params.eventId).then(event => res.json(event));
+  Event.findById(req.params.eventId)
+    .then(event => {
+      return event.populate("host").execPopulate();
+    })
+    .then(event => {
+      res.json(event);
+    });
 });
 
 //NOT WORK
