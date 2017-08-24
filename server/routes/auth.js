@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const jwt = require("jwt-simple");
 const config = require("../config");
-const event = require("../models/event");
+const Event = require("../models/event");
 
 router.post("/signup", (req, res, next) => {
   const {
@@ -59,8 +59,8 @@ router.post("/login", (req, res, next) => {
   }
 });
 
-router.get("/events/:eventId", (req, res) => {
-  Item.findById(req.params.itemId).then(item => res.json(item));
-});
+// router.get("/events/:eventId", (req, res) => {
+//   Event.findById(req.params.itemId).then(item => res.json(item));
+// });
 
 module.exports = router;

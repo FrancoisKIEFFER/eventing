@@ -30,7 +30,7 @@ function loadUser(vm) {
   const token = localStorage.jwtToken;
   const username = localStorage.username;
   if (token) {
-    axios.defaults.headers.common.Autorization = "Bearer " + token;
+    axios.defaults.headers.common.Authorization = "Bearer " + token;
     vm.$root.user = {
       token,
       username
@@ -53,7 +53,12 @@ function getItem(itemId) {
 }
 
 function getItemsOfEvent(eventId) {
-  return server.get(`events/${eventId}/items`).then(response => response.data);
+  return server.get(`/events/${eventId}/items`).then(response => response.data);
+}
+
+function postEvent(body) {
+  console.log("postEvent");
+  return server.post(`/events`, body).then(response => response.data);
 }
 
 export default {
@@ -63,5 +68,6 @@ export default {
   loadUser,
   getEvent,
   getItem,
-  getItemsOfEvent
+  getItemsOfEvent,
+  postEvent
 };

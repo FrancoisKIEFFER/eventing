@@ -171,22 +171,22 @@
         </header>
         <section class="modal-card-body">
           <Heading lvl="3">Your [EVENT]</Heading>
-          <input class="input is-large" type="text" placeholder="Title"></input>
-          <input class="input is-large" type="text" placeholder="Date"></input>
+          <input class="input is-large" type="text" v-model="title" placeholder="Title"></input>
+          <input class="input is-large" type="text" v-model="date" placeholder="Date"></input>
           <div class="field">
             <div class="control">
-              <textarea class="textarea is-large" type="text" placeholder="Description"></textarea>
+              <textarea class="textarea is-large" type="text" v-model="description" placeholder="Description"></textarea>
             </div>
           </div>
           <div class="field">
             <div class="control">
-              <textarea class="textarea is-large" type="text" placeholder="What do you have"></textarea>
+              <textarea class="textarea is-large" type="text" v-model="haveIt" placeholder="What do you have"></textarea>
             </div>
           </div>
 
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-success is-large">Create</button>
+          <button class="button is-success is-large" @click="createEvent">Create</button>
           <button class="button is-danger is-large" @click="displayModal2=false">Cancel</button>
         </footer>
       </div>
@@ -196,7 +196,8 @@
 </template>
 
 <script>
-import auth from "../api"
+import api from "../api";
+
 import Heading from '@/Landing/Heading'
 
 export default {
@@ -215,12 +216,16 @@ export default {
       digicode: '',
       displayModal: false,
       displayModal2: false,
+      title: '',
+      date: '',
+      description: '',
+      haveIt: '',
     }
   },
   methods: {
     signup() {
       this.error = ''
-      auth.signup({
+      api.signup({
         email: this.email,
         password: this.password,
         username: this.username,
@@ -235,7 +240,7 @@ export default {
       })
     },
     login() {
-      auth.login(this.usernameLogin, this.passwordLogin, this)
+      api.login(this.usernameLogin, this.passwordLogin, this)
         .then(response => {
           this.displayModal = false
         })
@@ -259,6 +264,16 @@ export default {
     },
     callModal2() {
       this.displayModal2 = true;
+    },
+    createEvent() {
+      // console.log('DEBUG this.$root.user', this.$root.user);
+      api.postEvent({
+        title: this.title,
+        date: this.date,
+        description: this.description,
+        haveIt: this.haveIt,
+        token: this.$root.user.token
+      });
     }
   },
 

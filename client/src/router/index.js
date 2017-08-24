@@ -14,7 +14,12 @@ export default new Router({
       component: Home
     },
     {
-      path: "/party",
+      path: "/event",
+      name: "Party",
+      component: Party
+    },
+    {
+      path: "/event/:id",
       name: "Party",
       component: Party
     }

@@ -30,7 +30,7 @@
                     <div class="title">
                         <div>
                             <form method="post">
-                                <!-- <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{title}}</label> -->
+                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{title}}</label>
                                 <input id="inputTitle" v-model="title" @blur="editTtr = false"></input>
                             </form>
                         </div>
@@ -54,7 +54,7 @@
                     <!-- {{haveIt}} -->
                     <br>
 
-                    <div class="level">
+                    <div class="level is-mobile">
                         <h2 class="level-left">Need it</h2>
                         <a class="button is-outlined level-right" @click="callModalNeed()" data-target="modal">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -86,7 +86,7 @@
         <div class='big checklist tile is-ancestor'>
             <div class="tile is-parent is-vertical is-4">
                 <article class="tile drink is-child box">
-                    <div class="level">
+                    <div class="level is-mobile">
                         <h2 class="level-left">Drink</h2>
                         <a class="button is-outlined is-info is-inverted level-right" @click="callModalDrink()" data-target="modal">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -105,7 +105,7 @@
             </div>
             <div class="tile is-parent is-vertical is-4">
                 <article class="tile food is-child box">
-                    <div class="level">
+                    <div class="level is-mobile">
                         <h2 class="level-left">Food</h2>
                         <a class="button is-outlined is-danger is-inverted level-right" @click="callModalFood()" data-target="modal">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -124,7 +124,7 @@
             </div>
             <div class="tile is-parent is-vertical is-4">
                 <article class="tile extras is-child box">
-                    <div class="level">
+                    <div class="level is-mobile">
                         <h2 class="level-left">Extras</h2>
                         <a class="button is-outlined is-success is-inverted level-right" @click="callModalExtras()" data-target="modal">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -160,7 +160,7 @@
                     <p class="modal-card-title">What do you need ?</p>
                     <button class="delete" aria-label="close" @click="displayModal=false"></button>
                 </header>
-                <section class="modal-card-body level">
+                <section class="modal-card-body level is-mobile">
                     <input class="input is-large" type="text" placeholder="Add your need"></input>
                     <div class="control">
                         <div class="select is-large">

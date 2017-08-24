@@ -60,9 +60,6 @@ passport.use(strategy);
 const authRoutes = require("./routes/auth");
 const itemsRoutes = require("./routes/items");
 const eventsRoutes = require("./routes/events");
-app.use("/api", authRoutes);
-app.use("/api", itemsRoutes);
-app.use("/api", eventsRoutes);
 
 app.use("/api", (req, res, next) => {
   passport.authenticate("jwt", config.jwtSession, (err, user, fail) => {
@@ -91,6 +88,10 @@ app.get(
     res.json(req.user);
   }
 );
+
+app.use("/api", authRoutes);
+app.use("/api", itemsRoutes);
+app.use("/api", eventsRoutes);
 
 const clientRoot = path.join(__dirname, "../client/dist");
 app.use("/", express.static(clientRoot));
