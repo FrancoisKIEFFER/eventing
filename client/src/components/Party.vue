@@ -2,10 +2,67 @@
     <div class='board'>
         <div class='big event tile is-ancestor' v-if="event">
             <div class="tile photoAdress is-parent is-vertical is-3">
-                <article class="date is-child is-2 box">
+
+                <article class="is-child box">
+                    <div class="title">
+                        <div>
+                            <form method="post">
+                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{event.eventInfo.title}}</label>
+                                <input id="inputTitle" v-model="title" @blur="editTtr = false"></input>
+                            </form>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="date is-child box">
                     <h1>Date</h1>
                     <h2>{{event.eventInfo.date}}</h2>
                 </article>
+
+                <article class="is-child box">
+                    <div class="description">
+                        <h2>Description : </h2>
+                        <div>
+                            <form method="post">
+                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{event.eventInfo.description}}</label>
+                                <textarea id="inputMessage" rows="4" v-model="description" @blur="editDscr = false"></textarea>
+                            </form>
+                        </div>
+                    </div>
+
+                </article>
+
+            </div>
+
+            <div class="tile informations is-parent is-vertical is-7">
+
+                <article class="tile stuff is-child box">
+                    <h2>Have it</h2>
+                    <hr> {{event.eventInfo.haveIt}}
+                    <br>
+                </article>
+
+                <div class="tile is-child">
+                    <item-list-view :items-data="necessaries" heading="Need it" category="necessary" instructions="What do you need ?" @item-added="itemAddition($event)"></item-list-view>
+                </div>
+
+            </div>
+
+            <div class="tile is-parent is-vertical is-2">
+
+                <div class="participants is-child box">
+                    <h1>Partycipants</h1>
+                    <hr>
+                    <ul>
+                        <li>{{event.host.username</li>
+                        <li>Ed</li>
+                        <li>Maxence</li>
+                        <li>Yacine</li>
+
+                        <!-- <li v-for="participant in participants">{{ event.participant }}</li> -->
+                    </ul>
+                </div>
+
                 <article class="adress is-child box">
                     <h1>Address</h1>
                     <hr>
@@ -22,240 +79,20 @@
                         <br>{{event.host.email}}
                     </p>
                 </article>
-            </div>
-            <div class="tile informations is-parent is-vertical is-7">
-                <article class="is-child box">
-                    <div class="title">
-                        <div>
-                            <form method="post">
-                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{event.eventInfo.title}}</label>
-                                <input id="inputTitle" v-model="title" @blur="editTtr = false"></input>
-                            </form>
-                        </div>
-                    </div>
-                </article>
-                <article class="is-child box">
-                    <div class="description">
-                        <h2>Description : </h2>
-                        <div>
-                            <form method="post">
-                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{event.eventInfo.description}}</label>
-                                <textarea id="inputMessage" rows="4" v-model="description" @blur="editDscr = false"></textarea>
-                            </form>
-                        </div>
-                    </div>
 
-                </article>
-                <article class="tile stuff is-child box">
-                    <h2>Have it</h2>
-                    <hr> {{event.eventInfo.haveIt}}
-                    <br>
-                    <br>
-
-                    <div class="level is-mobile">
-                        <h2 class="level-left">Need it</h2>
-                        <a class="button is-outlined level-right" @click="callModalNeed()" data-target="modal">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            Add
-                        </a>
-                    </div>
-                    <hr>
-                    <div class="needList">
-                        <ul>
-                            <li v-for="item in necessaries">
-                                <item-view :item-data="item"></item-view>
-                            </li>
-                        </ul>
-                    </div>
-                </article>
-
-            </div>
-            <div class="tile is-parent is-2">
-                <div class="tile participants is-child is-vertical box">
-                    <h1>Partycipants</h1>
-                    <hr>
-                    <ul>
-                        <li></li>
-                        <li v-for="participant in participants">{{ event.participant }}</li>
-                    </ul>
-                </div>
             </div>
         </div>
-        <div class='big checklist tile is-ancestor'>
+        <div class='big checklist tile is-ancestor box'>
             <div class="tile is-parent is-vertical is-4">
-                <article class="tile drink is-child box">
-                    <div class="level is-mobile">
-                        <h2 class="level-left">Drink</h2>
-                        <a class="button is-outlined is-info is-inverted level-right" @click="callModalDrink()" data-target="modal">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            Add
-                        </a>
-                    </div>
-                    <hr>
-                    <div class="drinkList">
-                        <ul>
-                            <li v-for="item in drinks">
-                                <item-view :item-data="item"></item-view>
-                            </li>
-                        </ul>
-                    </div>
-                </article>
+                <item-list-view :items-data="drinks" buttonSkin="is-info" heading="Drink" category="drink" instructions="Add your drink" @item-added="itemAddition($event)"></item-list-view>
             </div>
+
             <div class="tile is-parent is-vertical is-4">
-                <article class="tile food is-child box">
-                    <div class="level is-mobile">
-                        <h2 class="level-left">Food</h2>
-                        <a class="button is-outlined is-danger is-inverted level-right" @click="callModalFood()" data-target="modal">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            Add
-                        </a>
-                    </div>
-                    <hr>
-                    <div class="foodList">
-                        <ul>
-                            <li v-for="item in foods">
-                                <item-view :item-data="item"></item-view>
-                            </li>
-                        </ul>
-                    </div>
-                </article>
+                <item-list-view :items-data="foods" buttonSkin="is-danger" heading="Food" category="food" instructions="Add your food" @item-added="itemAddition($event)"></item-list-view>
             </div>
+
             <div class="tile is-parent is-vertical is-4">
-                <article class="tile extras is-child box">
-                    <div class="level is-mobile">
-                        <h2 class="level-left">Extras</h2>
-                        <a class="button is-outlined is-success is-inverted level-right" @click="callModalExtras()" data-target="modal">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                            Add
-                        </a>
-                    </div>
-                    <hr>
-                    <div class="extrasList">
-                        <ul>
-                            <li v-for="item in extras">
-                                <item-view :item-data="item"></item-view>
-                            </li>
-                        </ul>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                    </div>
-                </article>
-            </div>
-        </div>
-
-        <div class="modal" :class="{'is-active': displayModal}">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">What do you need ?</p>
-                    <button class="delete" aria-label="close" @click="displayModal=false"></button>
-                </header>
-                <section class="modal-card-body level is-mobile">
-                    <input class="input is-large" type="text" placeholder="Add your need" required></input>
-                    <div class="control">
-                        <div class="select is-large">
-                            <select class="is-focused">
-                                <option value="1" selected>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Add</button>
-                    <button class="button is-danger" @click="displayModal=false">Cancel</button>
-                </footer>
-            </div>
-        </div>
-
-        <div class="modal" :class="{'is-active': displayModal2}">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head drink">
-                    <p class="modal-card-title">Drink</p>
-                    <button class="delete" aria-label="close" @click="displayModal2=false"></button>
-                </header>
-                <section class="modal-card-body level">
-                    <input class="input is-large is-info" type="text" placeholder="Add your drink" required></input>
-                    <div class="control">
-                        <div class="select is-large is-info">
-                            <select class="is-focused">
-                                <option value="1" selected>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot is-info">
-                    <button class="button is-success">Add</button>
-                    <button class="button is-danger" @click="displayModal2=false">Cancel</button>
-                </footer>
-            </div>
-        </div>
-
-        <div class="modal" :class="{'is-active': displayModal3}">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head food">
-                    <p class="modal-card-title">Food</p>
-                    <button class="delete" aria-label="close" @click="displayModal3=false"></button>
-                </header>
-                <section class="modal-card-body level">
-                    <input class="input is-large is-danger" type="text" placeholder="Add your food" required></input>
-                    <div class="control">
-                        <div class="select is-large is-danger">
-                            <select class="is-focused">
-                                <option value="1" selected>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Add</button>
-                    <button class="button is-danger" @click="displayModal3=false">Cancel</button>
-                </footer>
-            </div>
-        </div>
-
-        <div class="modal" :class="{'is-active': displayModal4}">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head extras">
-                    <p class="modal-card-title">Extras</p>
-                    <button class="delete" aria-label="close" @click="displayModal4=false"></button>
-                </header>
-                <section class="modal-card-body level">
-                    <input class="input is-large is-success" type="text" placeholder="Add your extra" required></input>
-                    <div class="control">
-                        <div class="select is-large is-success">
-                            <select class="is-focused">
-                                <option value="1" selected>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
-                        </div>
-                    </div>
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success" @click="addItem">Add</button>
-                    <button class="button is-danger" @click="displayModal4=false">Cancel</button>
-                </footer>
+                <item-list-view :items-data="extras" buttonSkin="is-success" heading="Extra" category="extras" instructions="Add your extra" @item-added="itemAddition($event)"></item-list-view>
             </div>
 
         </div>
@@ -269,11 +106,13 @@
 
 <script>
 import api from "../api";
-import Item from "./Item"
+import Item from "./Item";
+import ItemList from "./ItemList"
 
 export default {
     components: {
-        ItemView: Item
+        ItemView: Item,
+        ItemListView: ItemList
     },
     data() {
         return {
@@ -282,9 +121,6 @@ export default {
             editTtr: false,
             editDscr: false,
             displayModal: false,
-            displayModal2: false,
-            displayModal3: false,
-            displayModal4: false,
             needs: [
                 { needAdd: '' },
                 { needAddQuantity: '' },
@@ -294,7 +130,12 @@ export default {
             items: [],
             host: null,
             name: null,
-            event: null
+            event: null,
+            item: {
+                name: null,
+                creator: "john",
+            },
+            drink: null
         };
     },
     methods: {
@@ -316,11 +157,20 @@ export default {
         callModalExtras() {
             this.displayModal4 = true;
         },
-        addItem() {
-            this.name = items.name;
-            this.category = items.category;
+        addItem(category) {
+            api.postItem({
+                name: this.item.name,
+                creator: this.item.creator,
+                category,
+                event: this.$route.params.id
+            }).then(item => this.items.push(item))
+            this.displayModal2 = false;
 
         },
+        itemAddition(item) {
+            this.items.push(item)
+        }
+
         // submitDescription() {
         //     this.edit = false;
         // }
@@ -338,11 +188,14 @@ export default {
         api.getItemsOfEvent("599d82b824bcf80bf8cd5ee7").then((items) => {
             this.items = items
         });
+
         // api.getUser(this.$route.params.id).then((host) => {
         //     this.username = host.username
         //     this.email = user.email
         // })
     },
+
+
     computed: {
         // "drink", "food", "extras", "necessary"
         drinks() {
@@ -363,36 +216,22 @@ export default {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
+
+<style>
+.drink {
+    background-color: rgba(50, 115, 220, 0.78)
+}
+
+.food {
+    background-color: rgba(255, 56, 96, 0.78)
+}
+
+.extras {
+
+    background-color: rgba(35, 209, 96, 0.78)
+}
+</style>
 
 <style scoped>
 .board {
@@ -459,6 +298,8 @@ textarea {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 
+
+
 h1 {
     text-align: left
 }
@@ -479,17 +320,8 @@ h2 {
     margin-bottom: 0;
 }
 
-.drink {
-    background-color: rgba(50, 115, 220, 0.78)
-}
-
-.food {
-    background-color: rgba(255, 56, 96, 0.78)
-}
-
-.extras {
-
-    background-color: rgba(35, 209, 96, 0.78)
+p[data-v-6aebfdab] {
+    font-size: 0.5rem;
 }
 </style>
 
