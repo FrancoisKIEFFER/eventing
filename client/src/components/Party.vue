@@ -20,11 +20,11 @@
                 </article>
 
                 <article class="is-child box">
-                    <div class="description">
+                    <div class=" description">
                         <h2>Description : </h2>
                         <div>
                             <form method="post">
-                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{event.eventInfo.description}}</label>
+                                <label for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{event.eventInfo.description}}</label>
                                 <textarea id="inputMessage" rows="4" v-model="description" @blur="editDscr = false"></textarea>
                             </form>
                         </div>
@@ -36,7 +36,7 @@
 
             <div class="tile informations is-parent is-vertical is-7">
 
-                <article class="tile stuff is-child box">
+                <article class="tile textarea stuff is-child box">
                     <h2>Have it</h2>
                     <hr> {{event.eventInfo.haveIt}}
                     <br>
@@ -54,7 +54,7 @@
                     <h1>Partycipants</h1>
                     <hr>
                     <ul>
-                        <li>{{event.host.username</li>
+                        <li>{{event.host.username}}</li>
                         <li>Ed</li>
                         <li>Maxence</li>
                         <li>Yacine</li>
@@ -82,7 +82,7 @@
 
             </div>
         </div>
-        <div class='big checklist tile is-ancestor box'>
+        <div class='big tile is-ancestor box'>
             <div class="tile is-parent is-vertical is-4">
                 <item-list-view :items-data="drinks" buttonSkin="is-info" heading="Drink" category="drink" instructions="Add your drink" @item-added="itemAddition($event)"></item-list-view>
             </div>
@@ -246,6 +246,9 @@ export default {
     padding-bottom: 15px;
 }
 
+.textarea {
+    white-space: pre-wrap;
+}
 
 input {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

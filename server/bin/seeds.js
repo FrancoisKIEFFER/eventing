@@ -11,12 +11,12 @@ User.remove({}, function(err) {
   Event.remove({}, function(err) {
     Item.remove({}, function(err) {
       const user = new User({
-        name: "fk",
-        email: "fk@fk.fk",
+        name: "Fk",
+        email: "fkieffer@fr.fr",
         address: "33 rue Lafayette",
         zipcode: "75008 Paris",
-        phonenumber: "0623486504",
-        digicode: "Interphone fk"
+        phonenumber: "06 12 34 56 78",
+        digicode: "Ask to reception"
       });
 
       user.save().then(userNew => {
@@ -36,17 +36,7 @@ User.remove({}, function(err) {
           }
         });
         event.save().then(eventNew => {
-          const item = new Item({
-            name: "Bières",
-            quantity: 1,
-            category: "drink",
-            creator: "John",
-            backer: "Seb",
-            event: eventNew._id
-          });
-          item.save().then(itemNew => {
-            mongoose.connection.close();
-          });
+          mongoose.connection.close();
         });
       });
     });
