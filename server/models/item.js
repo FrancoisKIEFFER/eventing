@@ -4,10 +4,10 @@ const { Schema } = mongoose;
 
 const itemSchema = new Schema({
   name: String,
-  quantity: Number,
   category: { type: String, enum: ["drink", "food", "extras", "necessary"] },
   creator: String,
-  backer: String
+  backer: String,
+  event: { type: mongoose.Schema.Types.ObjectId, ref: "Event" }
 });
 
 module.exports = mongoose.model("Item", itemSchema);

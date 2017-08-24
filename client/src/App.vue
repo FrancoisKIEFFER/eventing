@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="level">
+    <nav class="level is-mobile">
       <h4 class="title level-left">[EVENT]-ing</h4>
       <div class="level-right">
         <button class="logoutButton" @click="logout">

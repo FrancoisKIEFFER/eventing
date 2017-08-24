@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/user");
 const jwt = require("jwt-simple");
 const config = require("../config");
+const event = require("../models/event");
 
 router.post("/signup", (req, res, next) => {
   const {
@@ -56,6 +57,10 @@ router.post("/login", (req, res, next) => {
   } else {
     res.sendStatus(401).json("Username or Password are missing");
   }
+});
+
+router.get("/events/:eventId", (req, res) => {
+  Item.findById(req.params.itemId).then(item => res.json(item));
 });
 
 module.exports = router;

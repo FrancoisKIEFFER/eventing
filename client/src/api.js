@@ -1,18 +1,18 @@
 import axios from "axios";
 
-const auth = axios.create({
+const server = axios.create({
   baseURL:
     process.env.NODE_ENV === "production" ? "/api" : "http://localhost:3000/api"
 });
 
 function signup(user) {
-  return auth.post("/signup", user).then(response => {
+  return server.post("/signup", user).then(response => {
     return response.data;
   });
 }
 
 function login(username, password, vm) {
-  return auth
+  return server
     .post("/login", {
       username,
       password
@@ -40,13 +40,28 @@ function loadUser(vm) {
 
 function logout(vm) {
   localStorage.removeItem("jwtToken");
-  delete axios.defaults.headers.common.Authorization;
+  delete axios.defaults.headers.common.authorization;
   vm.$root.user = null;
+}
+
+function getEvent(eventId) {
+  return server.get(`/events/${eventId}`).then(response => response.data);
+}
+
+function getItem(itemId) {
+  return server.get(`/items/${itemId}`).then(response => response.data);
+}
+
+function getItemsOfEvent(eventId) {
+  return server.get(`events/${eventId}/items`).then(response => response.data);
 }
 
 export default {
   signup,
   login,
   logout,
-  loadUser
+  loadUser,
+  getEvent,
+  getItem,
+  getItemsOfEvent
 };

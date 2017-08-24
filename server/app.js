@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const history = require("connect-history-api-fallback");
+const history = require("express-history-api-fallback");
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
@@ -58,7 +58,11 @@ const strategy = new Strategy(
 passport.use(strategy);
 
 const authRoutes = require("./routes/auth");
+const itemsRoutes = require("./routes/items");
+const eventsRoutes = require("./routes/events");
 app.use("/api", authRoutes);
+app.use("/api", itemsRoutes);
+app.use("/api", eventsRoutes);
 
 app.use("/api", (req, res, next) => {
   passport.authenticate("jwt", config.jwtSession, (err, user, fail) => {
@@ -90,7 +94,7 @@ app.get(
 
 const clientRoot = path.join(__dirname, "../client/dist");
 app.use("/", express.static(clientRoot));
-app.use(history({ index: "index.html" }));
+app.use(history("index.html", { root: clientRoot }));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error("Not Found");

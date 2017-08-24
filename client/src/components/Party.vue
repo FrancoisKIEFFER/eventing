@@ -11,11 +11,12 @@
                 <article class="adress is-child box">
                     <h1>Address</h1>
                     <hr>
-                    <p>132 rue d'Assas
-                        <br>75006 Paris
-                        <br>Digicode: 754A
-                    </p>
-                    <br>
+                    <div v-if="place">
+                        <p>{{place.address}}</p>
+                        <p>{{place.zipcode}}</p>
+                        <p>{{place.digicode}}</p><br>
+                    </div>
+
                     <h1>Host</h1>
                     <hr>
                     <p>François KIEFFER
@@ -29,8 +30,8 @@
                     <div class="title">
                         <div>
                             <form method="post">
-                                <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{titre}}</label>
-                                <input id="inputTitle" v-model="titre" @blur="editTtr = false"></input>
+                                <!-- <label for="inputTitle" type="button" v-on:click="editTitle()" v-show="!editTtr">{{title}}</label> -->
+                                <input id="inputTitle" v-model="title" @blur="editTtr = false"></input>
                             </form>
                         </div>
                     </div>
@@ -40,8 +41,8 @@
                         <h2>Description : </h2>
                         <div>
                             <form method="post">
-                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{message}}</label>
-                                <textarea id="inputMessage" rows="4" v-model="message" @blur="editDscr = false"></textarea>
+                                <label style='white-space:pre' for="inputMessage" type="button" @click="editDescription()" v-show="!editDscr">{{description}}</label>
+                                <textarea id="inputMessage" rows="4" v-model="description" @blur="editDscr = false"></textarea>
                             </form>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                 <article class="tile stuff is-child box">
                     <h2>Have it</h2>
                     <hr>
-                    <br>
+                    <!-- {{haveIt}} -->
                     <br>
 
                     <div class="level">
@@ -63,11 +64,9 @@
                     <hr>
                     <div class="needList">
                         <ul>
-                            <li>Manette xbox</li>
-                            <li>Cable HDMI</li>
-                            <!-- <li v-for="need in needs">
-                                                                                                                                                                                                                                                                                                                            {{need.needAdd}}
-                                                                                                                                                                                                                                                                                                                        </li> -->
+                            <li v-for="item in items">
+                                <item-view :item-data="item"></item-view>
+                            </li>
                         </ul>
                     </div>
                 </article>
@@ -75,8 +74,12 @@
             </div>
             <div class="tile is-parent is-2">
                 <div class="tile participants is-child is-vertical box">
-                    <h1>Participants</h1>
+                    <h1>Partycipants</h1>
                     <hr>
+                    <ul>
+                        <li></li>
+                        <li v-for="participant in participants">{{ participant }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -91,6 +94,13 @@
                         </a>
                     </div>
                     <hr>
+                    <div class="drinkList">
+                        <ul>
+                            <li v-for="item in items">
+                                <item-view :item-data="item"></item-view>
+                            </li>
+                        </ul>
+                    </div>
                 </article>
             </div>
             <div class="tile is-parent is-vertical is-4">
@@ -103,6 +113,13 @@
                         </a>
                     </div>
                     <hr>
+                    <div class="foodList">
+                        <ul>
+                            <li v-for="item in items">
+                                <item-view :item-data="item"></item-view>
+                            </li>
+                        </ul>
+                    </div>
                 </article>
             </div>
             <div class="tile is-parent is-vertical is-4">
@@ -115,13 +132,23 @@
                         </a>
                     </div>
                     <hr>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <div class="extrasList">
+                        <ul>
+                            <li v-for="item in items">
+                                <item-view :item-data="item"></item-view>
+                            </li>
+                        </ul>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
                 </article>
             </div>
         </div>
@@ -134,7 +161,7 @@
                     <button class="delete" aria-label="close" @click="displayModal=false"></button>
                 </header>
                 <section class="modal-card-body level">
-                    <input v-model="needAdd" class="input is-large" type="text" placeholder="Add your need"></input>
+                    <input class="input is-large" type="text" placeholder="Add your need"></input>
                     <div class="control">
                         <div class="select is-large">
                             <select class="is-focused">
@@ -243,13 +270,18 @@
 
 
 <script>
+import api from "../api";
+import Item from "./Item"
 
 export default {
     name: 'event',
+    components: {
+        ItemView: Item
+    },
     data() {
         return {
-            titre: "Titre",
-            message: 'Write your description',
+            title: null,
+            description: null,
             editTtr: false,
             editDscr: false,
             displayModal: false,
@@ -259,7 +291,10 @@ export default {
             needs: [
                 { needAdd: '' },
                 { needAddQuantity: '' },
-            ]
+            ],
+            participants: null,
+            place: null,
+            items: []
         };
     },
     methods: {
@@ -284,6 +319,19 @@ export default {
         // submitDescription() {
         //     this.edit = false;
         // }
+    },
+    created() {
+        api.getEvent("599d82b824bcf80bf8cd5ee7").then((event) => {
+            this.participants = event.participants
+            this.place = event.place
+            this.title = event.eventInfo.title
+            this.description = event.eventInfo.description
+
+        });
+        api.getItemsOfEvent("599d82b824bcf80bf8cd5ee7").then((items) => {
+            this.items = items
+        })
+
     }
 }
 

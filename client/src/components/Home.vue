@@ -3,12 +3,14 @@
     <section class="hero is-large">
       <div class="hero-body">
         <div class="container title">
-          <h1>Bienvenue sur [EVENT]-ing</h1>
-          <p>the "T" is silent</p>
-          <a class="button is-large is-dark" v-if="$root.user" @click="callModal2()" data-target="modal" style="bottom: -70px">
+          <Heading lvl="1">Bienvenue sur [EVENT]-ing</Heading>
+          <p style="padding-bottom: 70px">
+            <em> "T" is silent</em>
+          </p>
+          <a class="button is-large is-dark" v-if="$root.user" @click="callModal2()" data-target="modal">
             Create an [EVENT]
           </a>
-          <a class="button is-large is-success" v-else @click="callModal()" data-target="modal" style="bottom: -70px">
+          <a class="button is-large is-success" v-else @click="callModal()" data-target="modal">
             Log in / Sign in
           </a>
         </div>
@@ -18,24 +20,24 @@
     <section class="hero is-medium is-success is-bold">
       <div class="hero-body">
         <div class="whatIsIt container">
-          <h2>Qu'est ce qu' [EVENT]-ing</h2>
-          <h3>[EVENT]-ing vous aide à l'organisation de soirée. Particulièrement si vous faites une soirée :</h3><br>
+          <Heading lvl="2">Qu'est ce qu' [EVENT]-ing</Heading><br>
+          <Heading lvl="3">[EVENT]-ing vous aide à l'organisation de soirée. Particulièrement si vous faites une soirée :</Heading><br>
           <div class="columns is-desktop">
             <div class="column">
-              <i class="fa fa-hourglass" aria-hidden="true"></i><br>
-              <h3>Jeux de Société</h3>
+              <i class="fa fa-hourglass fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">Jeux de Société</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-magic" aria-hidden="true"></i><br>
-              <h3>Jeux de rôle</h3>
+              <i class="fa fa-magic fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">Jeux de rôle</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-gamepad" aria-hidden="true"></i><br>
-              <h3>Jeux vidéo</h3>
+              <i class="fa fa-gamepad fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">Jeux vidéo</Heading>
             </div>
           </div>
           <br>
-          <h3>[EVENT]-ing vous permet en quelques instants de créer un événement, d’inviter vos amis<br>et d’avoir sur une seule page toutes informations nécessaires.</h3>
+          <Heading lvl="3">[EVENT]-ing vous permet en quelques instants de créer un événement, d’inviter vos amis<br>et d’avoir sur une seule page toutes informations nécessaires.</Heading>
         </div>
       </div>
     </section>
@@ -43,20 +45,20 @@
     <section class="hero is-medium is-info is-bold">
       <div class="hero-body">
         <div class="where container">
-          <h2>C’est où?</h2>
-          <h3>Lorsque vous créer l’événement, vous indiquez les informations importantes :</h3>
+          <Heading lvl="2">C’est où?</Heading><br>
+          <Heading lvl="3">Lorsque vous créer l’événement, vous indiquez les informations importantes :</Heading><br>
           <div class="columns is-desktop">
             <div class="column">
-              <i class="fa fa-calendar" aria-hidden="true"></i><br>
-              <h3>La date</h3>
+              <i class="fa fa-calendar fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">La date</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-map-marker" aria-hidden="true"></i><br>
-              <h3>Le lieu</h3>
+              <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">Le lieu</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-id-badge" aria-hidden="true"></i><br>
-              <h3>Les informations utiles</h3>
+              <i class="fa fa-id-badge fa-lg" aria-hidden="true"></i><br>
+              <Heading lvl="3">Les informations utiles</Heading>
               <ul>
                 <li>Digicode</li>
                 <li>Numéro de téléphone</li>
@@ -71,9 +73,9 @@
     <section class="hero is-medium is-success is-bold">
       <div class="hero-body">
         <div class="what container">
-          <h2>C’est quoi?</h2>
-          <h3>Un rapide descriptif pour définir le thème de la soirée. <br><br>Vous pouvez même rajouter une image si vous êtes créatifs!<br><br> La partie « Have it » vous permet d’indiquer tout le matériel que vous avez à disposition<br> (jeux, consoles, manettes, déguisements)
-          </h3>
+          <Heading lvl="2">C’est quoi?</Heading><br>
+          <Heading lvl="3">Un rapide descriptif pour définir le thème de la soirée. <br><br>Vous pouvez même rajouter une image si vous êtes créatifs!<br><br> La partie « Have it » vous permet d’indiquer tout le matériel que vous avez à disposition<br> (jeux, consoles, manettes, déguisements)
+          </Heading>
         </div>
       </div>
     </section>
@@ -81,8 +83,8 @@
     <section class="hero is-medium is-info is-bold">
       <div class="hero-body">
         <div class="need container">
-          <h2>Y a besoin de quelque chose?</h2>
-          <h3>C’est là que tout le monde participe!<br><br>Il vous manque un jeu, une manette ou une chaise?<br>Indiquez le dans le « Need it » pour que tout le monde le voit.<br><br>Si une personne en a, il a juste besoin de valider!<br>Ainsi, vous verrez en un clin d’oeil qui rapporte quoi!<br><br>Pas de pitié pour les têtes en l’air.</h3>
+          <Heading lvl="2">Y a besoin de quelque chose?</Heading><br>
+          <Heading lvl="3">C’est là que tout le monde participe!<br><br>Il vous manque un jeu, une manette ou une chaise?<br>Indiquez le dans le « Need it » pour que tout le monde le voit.<br><br>Si une personne en a, il a juste besoin de valider!<br>Ainsi, vous verrez en un clin d’oeil qui rapporte quoi!<br><br>Pas de pitié pour les têtes en l’air.</Heading>
         </div>
       </div>
     </section>
@@ -90,25 +92,25 @@
     <section class="hero is-medium is-success is-bold">
       <div class="hero-body">
         <div class="needMore container">
-          <h2>Et sinon, on rapporte quoi d’autres?</h2>
-          <h3>Trois catégories en bas de la page vous permettent de vous mettre d’accord sur :</h3>
+          <Heading lvl="2">Et sinon, on rapporte quoi d’autres?</Heading><br>
+          <Heading lvl="3">Trois catégories en bas de la page vous permettent de vous mettre d’accord sur :</Heading><br>
           <div class="columns is-desktop">
             <div class="column">
-              <i class="fa fa-beer" aria-hidden="true"></i><br>
-              <h3>Les boissons</h3>
+              <i class="fa fa-beer fa-2x" aria-hidden="true"></i><br>
+              <Heading lvl="3">Les boissons</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-cutlery" aria-hidden="true"></i><br>
-              <h3>La nourriture</h3>
+              <i class="fa fa-cutlery fa-2x" aria-hidden="true"></i><br>
+              <Heading lvl="3">La nourriture</Heading>
             </div>
             <div class="column">
-              <i class="fa fa-star" aria-hidden="true"></i><br>
-              <h3>Les extras</h3>
+              <i class="fa fa-star fa-2x" aria-hidden="true"></i><br>
+              <Heading lvl="3">Les extras</Heading>
             </div>
           </div>
           <br><br>
-          <h3> Vous pouvez voir qui rapporte quoi.<br><br><br> Fini les soirées où tout le monde rapporte des chips et personne ne rapporte de bières!
-          </h3>
+          <Heading lvl="3"> Vous pouvez voir qui rapporte quoi.<br><br><br> Fini les soirées où tout le monde rapporte des chips et personne ne rapporte de bières!
+          </Heading>
         </div>
       </div>
     </section>
@@ -135,20 +137,20 @@
           </article>
           <div class="columns is-desktop">
             <div class="column">
-              <h3>Already Registered</h3>
+              <Heading lvl="3">Already Registered</Heading>
               <input class="input is-large" v-model="usernameLogin" type="text" placeholder="Username"></input>
-              <input class="input is-large" v-model="passwordLogin" type="password" placeholder="Password"></input>
+              <input @keyup.enter="login" class="input is-large" v-model="passwordLogin" type="password" placeholder="Password"></input>
               <button @click="login" class="button is-success is-large" style="margin-top: 1vh">Login</button>
             </div>
             <div class="column">
-              <h3>Create an Account</h3>
+              <Heading lvl="3">Create an Account</Heading>
               <input class="input is-large" v-model="username" type="text" placeholder="Username"></input>
               <input class="input is-large" v-model="password" type="password" placeholder="Password"></input>
               <input class="input is-large" v-model="email" type="text" placeholder="Email"></input>
               <input class="input is-large" v-model="address" type="text" placeholder="Address"></input>
               <input class="input is-large" v-model="zipcode" type="text" placeholder="Zipcode City"></input>
               <input class="input is-large" v-model="phonenumber" type="text" placeholder="Phonenumber"></input>
-              <input class="input is-large" v-model="digicode" type="text" placeholder="Digicode"></input>
+              <input @keyup.enter="signup" class="input is-large" v-model="digicode" type="text" placeholder="Digicode"></input>
               <button @click="signup" class="button is-success is-large" style="margin-top: 1vh">Create</button>
             </div>
           </div>
@@ -168,7 +170,7 @@
           <button class="delete" aria-label="close" @click="displayModal2=false"></button>
         </header>
         <section class="modal-card-body">
-          <h3>Your [EVENT]</h3>
+          <Heading lvl="3">Your [EVENT]</Heading>
           <input class="input is-large" type="text" placeholder="Title"></input>
           <input class="input is-large" type="text" placeholder="Date"></input>
           <div class="field">
@@ -195,6 +197,7 @@
 
 <script>
 import auth from "../api"
+import Heading from '@/Landing/Heading'
 
 export default {
   name: 'home',
@@ -257,6 +260,10 @@ export default {
     callModal2() {
       this.displayModal2 = true;
     }
+  },
+
+  components: {
+    Heading
   }
 }
 </script>
@@ -266,30 +273,6 @@ export default {
 .home {
   text-align: center;
   padding-top: 68px;
-}
-
-h1 {
-  font-size: 80px;
-}
-
-h2 {
-  font-size: 60px;
-  margin-bottom: 2vh;
-}
-
-h3 {
-  font-size: 30px;
-}
-
-li {
-  font-size: 25px;
-  /* text-align: left; */
-}
-
-.fa {
-  font-size: 80px;
-  margin-top: 4vh;
-  margin-bottom: 2vh;
 }
 
 .input {
@@ -302,5 +285,9 @@ li {
 
 .digicode {
   margin-bottom: 2vh;
+}
+
+p {
+  font-size: 18px;
 }
 </style>
