@@ -99,5 +99,7 @@ export default {
 
 
 <style>
-
+article {
+    height: 100%
+}
 </style>
