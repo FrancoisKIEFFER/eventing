@@ -1,12 +1,15 @@
 const express = require("express");
-const router = express.Router();
+const ObjectId = require("mongoose").Types.ObjectId;
 const User = require("../models/user");
 const Event = require("../models/event.js");
 const Item = require("../models/item");
 const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
+const router = express.Router();
 
 router.get("/events/:eventId/items", (req, res) => {
-  Item.find(req.params.eventId).then(item => res.json(item));
+  Item.find({
+    event: ObjectId(req.params.eventId)
+  }).then(items => res.json(items));
 });
 // WORK   !!!!!!
 router.get("/events/:eventId", (req, res) => {
@@ -19,7 +22,6 @@ router.get("/events/:eventId", (req, res) => {
     });
 });
 
-//NOT WORK
 router.post("/events", (req, res, next) => {
   if (!req.user) {
     res.json({ error: "Not connected" });

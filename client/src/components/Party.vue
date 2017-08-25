@@ -20,7 +20,7 @@
                 </article>
 
                 <article class="is-child box">
-                    <div class=" description">
+                    <div class=" textarea description">
                         <h2>Description : </h2>
                         <div>
                             <form method="post">
@@ -82,7 +82,7 @@
 
             </div>
         </div>
-        <div class='big tile is-ancestor box'>
+        <div class='big checklist tile is-ancestor box'>
             <div class="tile is-parent is-vertical is-4">
                 <item-list-view :items-data="drinks" buttonSkin="is-info" heading="Drink" category="drink" instructions="Add your drink" @item-added="itemAddition($event)"></item-list-view>
             </div>
@@ -125,7 +125,7 @@ export default {
                 { needAdd: '' },
                 { needAddQuantity: '' },
             ],
-            participants: null,
+            // participants: null,
             place: null,
             items: [],
             host: null,
@@ -177,6 +177,7 @@ export default {
     },
     created() {
         api.getEvent(this.$route.params.id).then((event) => {
+            console.log("event", event)
             this.participants = event.participants
             this.place = event.place
 
@@ -185,7 +186,7 @@ export default {
             this.event = event
 
         });
-        api.getItemsOfEvent("599d82b824bcf80bf8cd5ee7").then((items) => {
+        api.getItemsOfEvent(this.$route.params.id).then((items) => {
             this.items = items
         });
 

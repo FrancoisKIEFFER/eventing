@@ -60,7 +60,7 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/events/:eventId", (req, res) => {
-  Event.findById(req.params.itemId).then(item => res.json(item));
+  Event.findById(req.params.eventId).then(item => res.json(item));
 });
 
 module.exports = router;

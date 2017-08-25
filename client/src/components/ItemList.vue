@@ -61,7 +61,7 @@ export default {
         category: String,
         heading: String,
         instructions: String,
-        buttonSkin: String,
+        buttonSkin: String
 
     },
     components: {
@@ -84,6 +84,7 @@ export default {
             this.displayModal = true;
         },
         addItem() {
+            console.log(this.eventId)
             api.postItem({
                 name: this.item.name,
                 creator: this.item.creator,

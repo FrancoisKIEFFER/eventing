@@ -16,13 +16,14 @@ router.post("/items", (req, res) => {
     category: req.body.category,
     creator: req.body.creator,
     backer: null,
-    event: req.body.eventId
+    event: ObjectId(req.body.event)
   });
   item
     .save(item)
     .then(item => {
       console.log(item);
-      return item.populate("event").execPopulate();
+      // return item.populate("event").execPopulate();
+      return item;
     })
     .then(item => {
       res.json(item);
