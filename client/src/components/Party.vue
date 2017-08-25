@@ -54,7 +54,7 @@
                     <h1>Partycipants</h1>
                     <hr>
                     <ul>
-                        <li>{{event.host.username}}</li>
+                        <li>François</li>
                         <li>Ed</li>
                         <li>Maxence</li>
                         <li>Yacine</li>
@@ -74,9 +74,9 @@
 
                     <h1>Host</h1>
                     <hr>
-                    <p>{{event.host.username}}
-                        <br>{{event.host.phonenumber}}
-                        <br>{{event.host.email}}
+                    <p>François
+                        <br>06 23 45 67 89
+                        <br>fkieffer@ironhack.fr
                     </p>
                 </article>
 
