@@ -38,7 +38,7 @@
 
                 <article class="tile textarea stuff is-child box">
                     <h2>Have it</h2>
-                    <hr> {{event.eventInfo.haveIt}}
+                    <hr>{{event.eventInfo.haveIt}}
                     <br>
                 </article>
 
@@ -67,17 +67,19 @@
                     <h1>Address</h1>
                     <hr>
                     <div v-if="place">
-                        <p>{{event.place.address}}</p>
-                        <p>{{event.place.zipcode}}</p>
-                        <p>{{event.place.digicode}}</p><br>
+                        <p>{{place.address}}</p>
+                        <p>{{place.zipcode}}</p>
+                        <p>{{place.digicode}}</p><br>
                     </div>
 
                     <h1>Host</h1>
                     <hr>
-                    <p>François
-                        <br>06 23 45 67 89
-                        <br>fkieffer@ironhack.fr
-                    </p>
+                    <div v-if="host">
+                        <p>{{host.username}}
+                            <br>{{host.phonenumber}}
+                            <br>{{host.email}}
+                        </p>
+                    </div>
                 </article>
 
             </div>
@@ -125,7 +127,7 @@ export default {
                 { needAdd: '' },
                 { needAddQuantity: '' },
             ],
-            // participants: null,
+            // user: null,
             place: null,
             items: [],
             host: null,
@@ -178,7 +180,7 @@ export default {
     created() {
         api.getEvent(this.$route.params.id).then((event) => {
             console.log("event", event)
-            this.participants = event.participants
+            this.participant = event.participant
             this.place = event.place
 
             this.host = event.host

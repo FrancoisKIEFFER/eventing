@@ -7,17 +7,21 @@ const { ensureLoggedIn, ensureLoggedOut } = require("connect-ensure-login");
 const router = express.Router();
 
 router.get("/events/:eventId/items", (req, res) => {
+  console.log("wtf");
   Item.find({
     event: ObjectId(req.params.eventId)
   }).then(items => res.json(items));
 });
+
 // WORK   !!!!!!
 router.get("/events/:eventId", (req, res) => {
+  console.log("yolo");
   Event.findById(req.params.eventId)
     .then(event => {
       return event.populate("host").execPopulate();
     })
     .then(event => {
+      console.log(event);
       res.json(event);
     });
 });
@@ -47,7 +51,7 @@ router.post("/events", (req, res, next) => {
     });
     event.save((err, eventCreated) => {
       if (err) return next(err);
-      else res.json(eventCreated);
+      else res.json(eventCreated.populate("host").execPopulate());
     });
   }
 });
